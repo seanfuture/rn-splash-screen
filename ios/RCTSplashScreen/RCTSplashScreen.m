@@ -15,7 +15,7 @@ RCT_EXPORT_MODULE(SplashScreen)
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
     CGSize viewSize = CGSizeMake(screenWidth, screenHeight);
-
+    
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     NSString* viewOrientation = @"Portrait";
@@ -25,7 +25,7 @@ RCT_EXPORT_MODULE(SplashScreen)
     }
     
     NSArray* imagesDict = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"UILaunchImages"];
-
+    
     for (NSDictionary* dict in imagesDict) {
         CGSize imageSize = CGSizeFromString(dict[@"UILaunchImageSize"]);
         if (CGSizeEqualToSize(imageSize, viewSize) && [viewOrientation isEqualToString:dict[@"UILaunchImageOrientation"]])
@@ -35,18 +35,18 @@ RCT_EXPORT_MODULE(SplashScreen)
 }
 
 + (void)show:(RCTRootView *)v {
+    
     rootView = v;
-    rootView.loadingViewFadeDelay = 0.1;
-    rootView.loadingViewFadeDuration = 0.1;
+    rootView.loadingViewFadeDelay = 1.0;
+    rootView.loadingViewFadeDuration = 0;
     UIImageView *view = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     NSString* launchFn = [RCTSplashScreen splashImageNameForOrientation];
     view.image = [UIImage imageNamed:launchFn];
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:rootView  name:RCTContentDidAppearNotification object:rootView];
-
+    
     [rootView setLoadingView:view];
 }
-
 
 RCT_EXPORT_METHOD(hide) {
     if (!rootView) {
